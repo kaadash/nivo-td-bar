@@ -1,6 +1,3 @@
-# src (will be transpiled)
-/src
-
 # logs
 *.log*
 

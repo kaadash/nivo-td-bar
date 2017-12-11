@@ -47,10 +47,6 @@ const barWillLeaveVertical = springConfig => ({ style }) => ({
     height: spring(0, springConfig),
 })
 
-const prepareSlices = bars => {
-  return map(groupBy(bars, bar => bar.data.indexValue), value => value)
-}
-
 const Bar = ({
     data,
     getIndex,
@@ -131,7 +127,7 @@ const Bar = ({
     }
     const result =
         groupMode === 'grouped' ? generateGroupedBars(options) : generateStackedBars(options)
-    console.log(result.bars, result.slices);
+
     const motionProps = {
         animate,
         motionDamping,
@@ -166,8 +162,6 @@ const Bar = ({
         scale: result.xScale,
         position: 'bottom',
     })
-
-    const slices = prepareSlices(result.bars)
 
     return (
         <Container isInteractive={isInteractive} theme={theme}>
@@ -250,7 +244,7 @@ const Bar = ({
                                 }}
                             >
                                 <div className="bar-chart__axis-item">
-                                    <div dangerouslySetInnerHTML={{__html: templates[index].innerHTML}} />
+                                    <div dangerouslySetInnerHTML={{__html: templates[index]}} />
                                 </div>
                             </div>
                        ) ;

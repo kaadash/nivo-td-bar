@@ -25,7 +25,7 @@ var BarSlices = function BarSlices(_ref) {
         slices.map(function (slice) {
             return React.createElement(
                 'g',
-                null,
+                { key: slice.x },
                 React.createElement('line', {
                     stroke: '#e8e9e8',
                     style: { shapeRendering: 'crispEdges' },

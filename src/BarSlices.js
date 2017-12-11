@@ -14,7 +14,7 @@ import BarSlicesItem from './BarSlicesItem'
 const BarSlices = ({ slices, height, width, theme, tooltipFormat, showTooltip, hideTooltip }) => (
     <g>
         {slices.map(slice => (
-            <g>
+            <g key={slice.x}>
                 <line
                     stroke="#e8e9e8"
                     style={{shapeRendering: 'crispEdges'}}

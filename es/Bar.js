@@ -65,14 +65,6 @@ var barWillLeaveVertical = function barWillLeaveVertical(springConfig) {
     };
 };
 
-var prepareSlices = function prepareSlices(bars) {
-    return map(groupBy(bars, function (bar) {
-        return bar.data.indexValue;
-    }), function (value) {
-        return value;
-    });
-};
-
 var Bar = function Bar(_ref5) {
     var data = _ref5.data,
         getIndex = _ref5.getIndex,
@@ -136,7 +128,7 @@ var Bar = function Bar(_ref5) {
         innerPadding: innerPadding
     };
     var result = groupMode === 'grouped' ? generateGroupedBars(options) : generateStackedBars(options);
-    console.log(result.bars, result.slices);
+
     var motionProps = {
         animate: animate,
         motionDamping: motionDamping,
@@ -174,8 +166,6 @@ var Bar = function Bar(_ref5) {
     }),
         y = _computeAxisTicks.y,
         ticks = _computeAxisTicks.ticks;
-
-    var slices = prepareSlices(result.bars);
 
     return React.createElement(
         Container,
@@ -272,7 +262,7 @@ var Bar = function Bar(_ref5) {
                         React.createElement(
                             'div',
                             { className: 'bar-chart__axis-item' },
-                            React.createElement('div', { dangerouslySetInnerHTML: { __html: templates[index].innerHTML } })
+                            React.createElement('div', { dangerouslySetInnerHTML: { __html: templates[index] } })
                         )
                     );
                 });
