@@ -130,13 +130,13 @@ export var generateVerticalGroupedBars = function generateVerticalGroupedBars(_r
                         color: getColor(barData)
                     });
                     if (i === 0) {
-                        var tooltipData = map(keyNames, function (keyName) {
+                        var tooltipData = map(keyNames, function (keyName, key) {
                             return {
                                 name: keyName.name,
-                                value: data[index][keyName.name],
+                                value: data[index][key],
                                 format: keyName.format,
-                                color: getColor(Object.assign({}, data[index][keyName.name], {
-                                    id: keyName.name
+                                color: getColor(Object.assign({}, data[index][key], {
+                                    id: key
                                 }))
                             };
                         }).filter(function (_ref2) {

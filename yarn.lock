@@ -31,9 +31,9 @@
     babel-plugin-transform-object-rest-spread "^6.26.0"
     babel-plugin-transform-react-jsx "^6.24.1"
 
-"@nivo/core@0.32.0":
+"@nivo/core@https://github.com/kaadash/nivo-td-core.git":
   version "0.32.0"
-  resolved "https://registry.yarnpkg.com/@nivo/core/-/core-0.32.0.tgz#e191b9fbc45416ee32bdf0350957aaeecc439b84"
+  resolved "https://github.com/kaadash/nivo-td-core.git#49cce9cbb6f520009a4268f23a652e52281a6a7f"
   dependencies:
     d3-color "^1.0.3"
     d3-format "^1.2.0"
@@ -42,6 +42,7 @@
     d3-scale "^1.0.6"
     d3-scale-chromatic "^1.1.1"
     d3-shape "^1.2.0"
+    lodash-es "^4.17.4"
     react-measure "^2.0.2"
     react-motion "^0.5.2"
     recompose "^0.26.0"

@@ -118,13 +118,13 @@ export const generateVerticalGroupedBars = ({
                         color: getColor(barData),
                     })
                     if (i === 0) {
-                        const tooltipData = map(keyNames, keyName => {
+                        const tooltipData = map(keyNames, (keyName, key) => {
                             return {
                                 name: keyName.name,
-                                value: data[index][keyName.name],
+                                value: data[index][key],
                                 format: keyName.format,
-                                color: getColor(Object.assign({}, data[index][keyName.name], {
-                                    id: keyName.name,
+                                color: getColor(Object.assign({}, data[index][key], {
+                                    id: key,
                                 }))
                             };
                         }).filter(({value}) => {

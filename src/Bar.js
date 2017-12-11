@@ -17,7 +17,6 @@ import BarSlices from './BarSlices'
 import { Container, SvgWrapper } from '@nivo/core'
 import { Grid, Axes } from '@nivo/core'
 import { CartesianMarkers, computeAxisTicks } from '@nivo/core'
-import { map, groupBy } from 'lodash';
 
 const barWillEnterHorizontal = ({ style }) => ({
     x: style.x.val,
