@@ -1,12 +1,12 @@
 {
-  "name": "@nivo-td-bar",
+  "name": "@nivo/bar",
   "version": "0.32.0",
   "license": "MIT",
   "main": "./lib/index.js",
   "module": "es/index.js",
   "jsnext:main": "es/index.js",
   "dependencies": {
-    "@nivo/core": "0.32.0",
+    "@nivo/core": "https://github.com/kaadash/nivo-td-core.git",
     "d3-scale": "^1.0.6",
     "d3-shape": "^1.2.0",
     "lodash-es": "^4.17.4",
