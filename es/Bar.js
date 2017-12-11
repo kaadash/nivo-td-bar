@@ -272,15 +272,7 @@ var Bar = function Bar(_ref5) {
                         React.createElement(
                             'div',
                             { className: 'bar-chart__axis-item' },
-                            React.createElement(
-                                'div',
-                                null,
-                                React.createElement(
-                                    'div',
-                                    null,
-                                    templates[index]
-                                )
-                            )
+                            React.createElement('div', { dangerouslySetInnerHTML: { __html: templates[index].innerHTML } })
                         )
                     );
                 });

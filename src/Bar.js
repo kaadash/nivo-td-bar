@@ -250,9 +250,7 @@ const Bar = ({
                                 }}
                             >
                                 <div className="bar-chart__axis-item">
-                                    <div>
-                                        <div>{templates[index]}</div>
-                                    </div>
+                                    <div dangerouslySetInnerHTML={{__html: templates[index].innerHTML}} />
                                 </div>
                             </div>
                        ) ;
