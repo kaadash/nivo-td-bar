@@ -18,14 +18,11 @@ import {getIndexedScale} from './common'
  * @param {number}         _minValue
  * @param {number|string}  _maxValue
  * @param {Array.<number>} range
- * @param {Object} edge
  * @returns {Function}
  */
-export const getGroupedScale = (data, keys, _minValue, _maxValue, range, edge) => {
+export const getGroupedScale = (data, keys, _minValue, _maxValue, range) => {
     const allValues = data.reduce((acc, entry) => [...acc, ...keys.map(k => entry[k])], [])
-    if (edge) {
-        allValues.push(edge.value);
-    }
+
     let maxValue = _maxValue
     if (maxValue === 'auto') {
         maxValue = max(allValues)
@@ -50,7 +47,6 @@ export const getGroupedScale = (data, keys, _minValue, _maxValue, range, edge) =
  * @param {Array.<string>} keys
  * @param {Array.<Object>} keyNames
  * @param {Array.<Object>} templates
- * @param {Object}         edge
  * @param {number}         minValue
  * @param {number}         maxValue
  * @param {boolean}        reverse
@@ -75,11 +71,10 @@ export const generateVerticalGroupedBars = ({
     getColor,
     padding = 0,
     innerPadding = 0,
-    edge,
 }) => {
     const xScale = getIndexedScale(data, getIndex, [0, width], padding)
     const yRange = reverse ? [0, height] : [height, 0]
-    const yScale = getGroupedScale(data, keys, minValue, maxValue, yRange, edge)
+    const yScale = getGroupedScale(data, keys, minValue, maxValue, yRange)
     const barWidth = (xScale.bandwidth() - innerPadding * (keys.length - 1)) / keys.length
     const yRef = yScale(0)
 

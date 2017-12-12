@@ -75,7 +75,6 @@ const Bar = ({
     axisLeft,
     enableGridX,
     enableGridY,
-    edge,
 
     // customization
     barComponent,
@@ -124,7 +123,6 @@ const Bar = ({
         getColor,
         padding,
         innerPadding,
-        edge,
     }
     const result =
         groupMode === 'grouped' ? generateGroupedBars(options) : generateStackedBars(options)
@@ -241,8 +239,7 @@ const Bar = ({
                                 key={x}
                                 style={{
                                     transform: `translateX(${x + margin.left}px)`,
-                                    top: `${y + 15}px`,
-                                    width: `${result.slices[0].width}px`
+                                    top: `${y + 15}px`
                                 }}
                             >
                                 <div className="bar-chart__axis-item">
@@ -269,21 +266,20 @@ const Bar = ({
                                 yScale={enableGridY ? result.yScale : null}
                                 {...motionProps}
                             />
-                            {bars}
                             <Axes
-                              xScale={result.xScale}
-                              yScale={result.yScale}
-                              width={width}
-                              enableTemplates={enableTemplates}
-                              height={height}
-                              theme={theme}
-                              top={axisTop}
-                              right={axisRight}
-                              bottom={axisBottom}
-                              edge={edge}
-                              left={axisLeft}
-                              {...motionProps}
+                                xScale={result.xScale}
+                                yScale={result.yScale}
+                                width={width}
+                                enableTemplates={enableTemplates}
+                                height={height}
+                                theme={theme}
+                                top={axisTop}
+                                right={axisRight}
+                                bottom={axisBottom}
+                                left={axisLeft}
+                                {...motionProps}
                             />
+                            {bars}
                             {
                                 layout === 'vertical'
                                   ?
@@ -307,7 +303,7 @@ const Bar = ({
                                 theme={theme}
                             />
                         </SvgWrapper>
-                        {enableTemplates ? renderTicks(templates) : ''}
+                        {/*{enableTemplates ? renderTicks(templates) : ''}*/}
                     </div>
                 )
             }}

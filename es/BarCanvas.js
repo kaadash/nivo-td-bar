@@ -14,12 +14,11 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
  */
 import React, { Component } from 'react';
 import { generateGroupedBars, generateStackedBars } from './compute';
-import { renderAxesToCanvas, computeAxisTicks } from '@nivo/core';
+import { renderAxesToCanvas } from '@nivo/core';
 import { getRelativeCursor, isCursorInRect } from '@nivo/core';
 import { Container } from '@nivo/core';
 import { BasicTooltip } from '@nivo/core';
 import { BarPropTypes } from './props';
-import BarSlices from './BarSlices';
 import enhance from './enhance';
 
 var findNodeUnderCursor = function findNodeUnderCursor(nodes, margin, x, y) {
@@ -40,9 +39,7 @@ var BarCanvas = function (_Component) {
             args[_key] = arguments[_key];
         }
 
-        return _ret = (_temp = (_this = _possibleConstructorReturn(this, _Component.call.apply(_Component, [this].concat(args))), _this), _this.state = {
-            ticks: []
-        }, _this.handleMouseHover = function (showTooltip, hideTooltip) {
+        return _ret = (_temp = (_this = _possibleConstructorReturn(this, _Component.call.apply(_Component, [this].concat(args))), _this), _this.handleMouseHover = function (showTooltip, hideTooltip) {
             return function (event) {
                 if (!_this.bars) return;
 
@@ -115,9 +112,6 @@ var BarCanvas = function (_Component) {
             getIndex = props.getIndex,
             minValue = props.minValue,
             maxValue = props.maxValue,
-            keyNames = props.keyNames,
-            templates = props.templates,
-            enableTemplates = props.enableTemplates,
             width = props.width,
             height = props.height,
             outerWidth = props.outerWidth,
@@ -153,9 +147,7 @@ var BarCanvas = function (_Component) {
             height: height,
             getColor: getColor,
             padding: padding,
-            innerPadding: innerPadding,
-            keyNames: keyNames,
-            templates: templates
+            innerPadding: innerPadding
         };
 
         var result = groupMode === 'grouped' ? generateGroupedBars(options) : generateStackedBars(options);
@@ -176,15 +168,6 @@ var BarCanvas = function (_Component) {
             left: axisLeft
         });
 
-        var _computeAxisTicks = computeAxisTicks({
-            width: this.props.width,
-            height: this.props.height,
-            scale: result.xScale,
-            position: 'bottom'
-        }),
-            y = _computeAxisTicks.y,
-            ticks = _computeAxisTicks.ticks;
-
         result.bars.forEach(function (_ref) {
             var x = _ref.x,
                 y = _ref.y,
@@ -197,140 +180,39 @@ var BarCanvas = function (_Component) {
         });
     };
 
-    BarCanvas.prototype.renderTicks = function renderTicks(templates, showTooltip, hideTooltip) {
+    BarCanvas.prototype.render = function render() {
         var _this3 = this;
 
         var _props = this.props,
-            data = _props.data,
-            keys = _props.keys,
-            getIndex = _props.getIndex,
-            minValue = _props.minValue,
-            maxValue = _props.maxValue,
-            keyNames = _props.keyNames,
-            width = _props.width,
-            height = _props.height,
-            layout = _props.layout,
-            reverse = _props.reverse,
-            groupMode = _props.groupMode,
-            padding = _props.padding,
-            innerPadding = _props.innerPadding,
-            getColor = _props.getColor;
+            outerWidth = _props.outerWidth,
+            outerHeight = _props.outerHeight,
+            pixelRatio = _props.pixelRatio,
+            isInteractive = _props.isInteractive,
+            theme = _props.theme;
 
-        var options = {
-            layout: layout,
-            reverse: reverse,
-            data: data,
-            getIndex: getIndex,
-            keys: keys,
-            minValue: minValue,
-            maxValue: maxValue,
-            width: width,
-            height: height,
-            getColor: getColor,
-            padding: padding,
-            innerPadding: innerPadding,
-            keyNames: keyNames,
-            templates: templates
-        };
 
-        var result = groupMode === 'grouped' ? generateGroupedBars(options) : generateStackedBars(options);
-
-        var _computeAxisTicks2 = computeAxisTicks({
-            width: this.props.width,
-            height: this.props.height,
-            scale: result.xScale,
-            position: 'bottom'
-        }),
-            y = _computeAxisTicks2.y,
-            ticks = _computeAxisTicks2.ticks;
-
-        var ticksTemplate = (ticks || []).map(function (_ref2, index) {
-            var x = _ref2.x;
-
-            return React.createElement(
-                'div',
-                {
-                    className: 'bar-chart__axis',
-                    key: x,
+        return React.createElement(
+            Container,
+            { isInteractive: isInteractive, theme: theme },
+            function (_ref2) {
+                var showTooltip = _ref2.showTooltip,
+                    hideTooltip = _ref2.hideTooltip;
+                return React.createElement('canvas', {
+                    ref: function ref(surface) {
+                        _this3.surface = surface;
+                    },
+                    width: outerWidth * pixelRatio,
+                    height: outerHeight * pixelRatio,
                     style: {
-                        transform: 'translateX(' + (x + _this3.props.margin.left) + 'px)',
-                        top: y + 15 + 'px'
-                    }
-                },
-                React.createElement(
-                    'div',
-                    { className: 'bar-chart__axis-item' },
-                    React.createElement('div', { dangerouslySetInnerHTML: { __html: templates[index] } })
-                )
-            );
-        });
-        return React.createElement(
-            'div',
-            { style: {
-                    position: 'absolute',
-                    height: height + 'px',
-                    top: 0,
-                    left: 0,
-                    width: '100%',
-                    paddingLeft: this.props.margin.left + 'px'
-                } },
-            ticksTemplate,
-            layout === 'vertical' ? React.createElement(BarSlices, {
-                theme: this.props.theme,
-                slices: result.slices,
-                margin: this.props.margin,
-                showTooltip: showTooltip,
-                hideTooltip: hideTooltip,
-                width: result.slices[0].width,
-                height: height,
-                tooltipFormat: this.props.tooltipFormat
-            }) : ''
-        );
-    };
-
-    BarCanvas.prototype.render = function render() {
-        var _this4 = this;
-
-        var _props2 = this.props,
-            outerWidth = _props2.outerWidth,
-            outerHeight = _props2.outerHeight,
-            pixelRatio = _props2.pixelRatio,
-            isInteractive = _props2.isInteractive,
-            theme = _props2.theme,
-            enableTemplates = _props2.enableTemplates,
-            templates = _props2.templates;
-
-        return React.createElement(
-            'div',
-            null,
-            React.createElement(
-                Container,
-                { isInteractive: isInteractive, theme: theme },
-                function (_ref3) {
-                    var showTooltip = _ref3.showTooltip,
-                        hideTooltip = _ref3.hideTooltip;
-                    return React.createElement(
-                        'div',
-                        { style: { position: 'relative' } },
-                        React.createElement('canvas', {
-                            ref: function ref(surface) {
-                                _this4.surface = surface;
-                            },
-                            width: outerWidth * pixelRatio,
-                            height: outerHeight * pixelRatio,
-                            style: {
-                                width: outerWidth,
-                                height: outerHeight
-                            },
-                            onMouseEnter: _this4.handleMouseHover(showTooltip, hideTooltip),
-                            onMouseMove: _this4.handleMouseHover(showTooltip, hideTooltip),
-                            onMouseLeave: _this4.handleMouseLeave(hideTooltip),
-                            onClick: _this4.handleClick
-                        }),
-                        enableTemplates ? _this4.renderTicks(templates, showTooltip, hideTooltip) : ''
-                    );
-                }
-            )
+                        width: outerWidth,
+                        height: outerHeight
+                    },
+                    onMouseEnter: _this3.handleMouseHover(showTooltip, hideTooltip),
+                    onMouseMove: _this3.handleMouseHover(showTooltip, hideTooltip),
+                    onMouseLeave: _this3.handleMouseLeave(hideTooltip),
+                    onClick: _this3.handleClick
+                });
+            }
         );
     };
 

@@ -18,14 +18,12 @@ var BarSlicesItem = function BarSlicesItem(_ref) {
         hideTooltip = _ref.hideTooltip,
         isHover = _ref.isHover;
 
-    return React.createElement('div', {
-        style: {
-            height: height,
-            width: width,
-            position: 'absolute',
-            borderRight: '1px solid #e8e9e8',
-            transform: 'translateX(' + x + 'px)'
-        },
+    return React.createElement('rect', {
+        x: x,
+        fill: 'black',
+        fillOpacity: isHover ? 0.05 : 0,
+        height: height,
+        width: width,
         onMouseEnter: showTooltip,
         onMouseMove: showTooltip,
         onMouseLeave: hideTooltip

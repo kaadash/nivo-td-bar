@@ -11,14 +11,12 @@ const hoverColor = '#e8e9e8'
 
 const BarSlicesItem = ({ slice, x, height, width, showTooltip, hideTooltip, isHover }) => {
     return (
-        <div
-            style={{
-              height,
-              width,
-              position: 'absolute',
-              borderRight: '1px solid #e8e9e8',
-              transform: `translateX(${x}px)`
-            }}
+        <rect
+            x={x}
+            fill="black"
+            fillOpacity={isHover ? 0.05 : 0}
+            height={height}
+            width={width}
             onMouseEnter={showTooltip}
             onMouseMove={showTooltip}
             onMouseLeave={hideTooltip}
