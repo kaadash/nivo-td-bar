@@ -18,15 +18,18 @@ import { getIndexedScale } from './common';
  * @param {number}         _minValue
  * @param {number|string}  _maxValue
  * @param {Array.<number>} range
+ * @param {Object} edge
  * @returns {Function}
  */
-export var getGroupedScale = function getGroupedScale(data, keys, _minValue, _maxValue, range) {
+export var getGroupedScale = function getGroupedScale(data, keys, _minValue, _maxValue, range, edge) {
     var allValues = data.reduce(function (acc, entry) {
         return [].concat(acc, keys.map(function (k) {
             return entry[k];
         }));
     }, []);
-
+    if (edge) {
+        allValues.push(edge.value);
+    }
     var maxValue = _maxValue;
     if (maxValue === 'auto') {
         maxValue = max(allValues);
@@ -49,6 +52,7 @@ export var getGroupedScale = function getGroupedScale(data, keys, _minValue, _ma
  * @param {Array.<string>} keys
  * @param {Array.<Object>} keyNames
  * @param {Array.<Object>} templates
+ * @param {Object}         edge
  * @param {number}         minValue
  * @param {number}         maxValue
  * @param {boolean}        reverse
@@ -74,11 +78,12 @@ export var generateVerticalGroupedBars = function generateVerticalGroupedBars(_r
         _ref$padding = _ref.padding,
         padding = _ref$padding === undefined ? 0 : _ref$padding,
         _ref$innerPadding = _ref.innerPadding,
-        innerPadding = _ref$innerPadding === undefined ? 0 : _ref$innerPadding;
+        innerPadding = _ref$innerPadding === undefined ? 0 : _ref$innerPadding,
+        edge = _ref.edge;
 
     var xScale = getIndexedScale(data, getIndex, [0, width], padding);
     var yRange = reverse ? [0, height] : [height, 0];
-    var yScale = getGroupedScale(data, keys, minValue, maxValue, yRange);
+    var yScale = getGroupedScale(data, keys, minValue, maxValue, yRange, edge);
     var barWidth = (xScale.bandwidth() - innerPadding * (keys.length - 1)) / keys.length;
     var yRef = yScale(0);
 

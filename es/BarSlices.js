@@ -18,22 +18,18 @@ var BarSlices = function BarSlices(_ref) {
         theme = _ref.theme,
         tooltipFormat = _ref.tooltipFormat,
         showTooltip = _ref.showTooltip,
-        hideTooltip = _ref.hideTooltip;
+        hideTooltip = _ref.hideTooltip,
+        margin = _ref.margin;
     return React.createElement(
-        'g',
-        null,
+        'div',
+        { style: {
+                width: '100%',
+                height: '100%'
+            } },
         slices.map(function (slice) {
             return React.createElement(
-                'g',
+                'div',
                 { key: slice.x },
-                React.createElement('line', {
-                    stroke: '#e8e9e8',
-                    style: { shapeRendering: 'crispEdges' },
-                    x1: slice.x,
-                    x2: slice.x,
-                    y1: 0,
-                    y2: height
-                }),
                 React.createElement(BarSlicesItem, {
                     slice: slice,
                     theme: theme,

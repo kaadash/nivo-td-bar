@@ -89,6 +89,7 @@ var Bar = function Bar(_ref5) {
         axisLeft = _ref5.axisLeft,
         enableGridX = _ref5.enableGridX,
         enableGridY = _ref5.enableGridY,
+        edge = _ref5.edge,
         barComponent = _ref5.barComponent,
         enableLabel = _ref5.enableLabel,
         getLabel = _ref5.getLabel,
@@ -124,7 +125,8 @@ var Bar = function Bar(_ref5) {
         height: height,
         getColor: getColor,
         padding: padding,
-        innerPadding: innerPadding
+        innerPadding: innerPadding,
+        edge: edge
     };
     var result = groupMode === 'grouped' ? generateGroupedBars(options) : generateStackedBars(options);
 
@@ -255,7 +257,8 @@ var Bar = function Bar(_ref5) {
                             key: x,
                             style: {
                                 transform: 'translateX(' + (x + margin.left) + 'px)',
-                                top: y + 15 + 'px'
+                                top: y + 15 + 'px',
+                                width: result.slices[0].width + 'px'
                             }
                         },
                         React.createElement(
@@ -285,6 +288,7 @@ var Bar = function Bar(_ref5) {
                         xScale: enableGridX ? result.xScale : null,
                         yScale: enableGridY ? result.yScale : null
                     }, motionProps)),
+                    bars,
                     React.createElement(Axes, _extends({
                         xScale: result.xScale,
                         yScale: result.yScale,
@@ -295,9 +299,9 @@ var Bar = function Bar(_ref5) {
                         top: axisTop,
                         right: axisRight,
                         bottom: axisBottom,
+                        edge: edge,
                         left: axisLeft
                     }, motionProps)),
-                    bars,
                     layout === 'vertical' ? React.createElement(BarSlices, {
                         theme: theme,
                         slices: result.slices,
