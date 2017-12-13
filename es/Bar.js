@@ -293,6 +293,7 @@ var Bar = function Bar(_ref5) {
                         yScale: result.yScale,
                         width: width,
                         enableTemplates: enableTemplates,
+                        format: tooltipFormat,
                         height: height,
                         theme: theme,
                         top: axisTop,

@@ -96,51 +96,49 @@ export const generateVerticalGroupedBars = ({
                 const barHeight = getHeight(data[index][key], y)
                 const template = templates[index];
 
-                if (barWidth > 0 && barHeight > 0) {
-                    const barData = {
-                        id: key,
-                        value: data[index][key],
-                        index,
-                        template,
-                        keyNames,
-                        keyName: keyNames[key],
-                        indexValue: getIndex(data[index]),
-                        data: data[index],
-                    }
+                const barData = {
+                    id: key,
+                    value: data[index][key],
+                    index,
+                    template,
+                    keyNames,
+                    keyName: keyNames[key],
+                    indexValue: getIndex(data[index]),
+                    data: data[index],
+                }
 
-                    bars.push({
-                        key: `${key}.${barData.indexValue}`,
-                        data: barData,
-                        x,
-                        y,
-                        width: barWidth,
-                        height: barHeight,
-                        color: getColor(barData),
+                bars.push({
+                    key: `${key}.${barData.indexValue}`,
+                    data: barData,
+                    x,
+                    y,
+                    width: barWidth,
+                    height: barHeight,
+                    color: getColor(barData),
+                })
+                if (i === 0) {
+                    const tooltipData = map(keyNames, (keyName, key) => {
+                        return {
+                            name: keyName.name,
+                            value: data[index][key],
+                            format: keyName.format,
+                            color: getColor(Object.assign({}, data[index][key], {
+                                id: key,
+                            }))
+                        };
+                    }).filter(({value}) => {
+                        return isNumber(value);
+                    });
+                    slices.push({
+                      key: `${key}.${barData.indexValue}`,
+                      data: barData,
+                      tooltipData,
+                      x: x - paddingInPixel / 2,
+                      y,
+                      width: (barWidth * tooltipData.length) + paddingInPixel,
+                      height: barHeight,
+                      color: getColor(barData),
                     })
-                    if (i === 0) {
-                        const tooltipData = map(keyNames, (keyName, key) => {
-                            return {
-                                name: keyName.name,
-                                value: data[index][key],
-                                format: keyName.format,
-                                color: getColor(Object.assign({}, data[index][key], {
-                                    id: key,
-                                }))
-                            };
-                        }).filter(({value}) => {
-                            return isNumber(value);
-                        });
-                        slices.push({
-                          key: `${key}.${barData.indexValue}`,
-                          data: barData,
-                          tooltipData,
-                          x: x - paddingInPixel / 2,
-                          y,
-                          width: (barWidth * tooltipData.length) + paddingInPixel,
-                          height: barHeight,
-                          color: getColor(barData),
-                        })
-                    }
                 }
             })
         })

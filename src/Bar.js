@@ -276,6 +276,7 @@ const Bar = ({
                             yScale={result.yScale}
                             width={width}
                             enableTemplates={enableTemplates}
+                            format={tooltipFormat}
                             height={height}
                             theme={theme}
                             top={axisTop}
