@@ -71,6 +71,7 @@ var Bar = function Bar(_ref5) {
         keyNames = _ref5.keyNames,
         templates = _ref5.templates,
         enableTemplates = _ref5.enableTemplates,
+        onTicksCalculate = _ref5.onTicksCalculate,
         groupMode = _ref5.groupMode,
         layout = _ref5.layout,
         reverse = _ref5.reverse,
@@ -166,6 +167,8 @@ var Bar = function Bar(_ref5) {
         y = _computeAxisTicks.y,
         ticks = _computeAxisTicks.ticks;
 
+    onTicksCalculate && onTicksCalculate(ticks, y);
+
     return React.createElement(
         Container,
         { isInteractive: isInteractive, theme: theme },
@@ -244,78 +247,51 @@ var Bar = function Bar(_ref5) {
                 });
             }
 
-            var renderTicks = function renderTicks(templates) {
-                return ticks.map(function (_ref9, index) {
-                    var x = _ref9.x;
-
-                    return React.createElement(
-                        'div',
-                        {
-                            className: 'bar-chart__axis',
-                            key: x,
-                            style: {
-                                transform: 'translateX(' + (x + margin.left) + 'px)',
-                                top: y + 15 + 'px'
-                            }
-                        },
-                        React.createElement(
-                            'div',
-                            { className: 'bar-chart__axis-item' },
-                            React.createElement('div', { dangerouslySetInnerHTML: { __html: templates[index] } })
-                        )
-                    );
-                });
-            };
-
             return React.createElement(
-                'div',
-                null,
-                React.createElement(
-                    SvgWrapper,
-                    {
-                        width: outerWidth,
-                        height: outerHeight,
-                        margin: margin,
-                        defs: boundDefs
-                    },
-                    React.createElement(Grid, _extends({
-                        theme: theme,
-                        width: width,
-                        height: height,
-                        xScale: enableGridX ? result.xScale : null,
-                        yScale: enableGridY ? result.yScale : null
-                    }, motionProps)),
-                    React.createElement(Axes, _extends({
-                        xScale: result.xScale,
-                        yScale: result.yScale,
-                        width: width,
-                        enableTemplates: enableTemplates,
-                        height: height,
-                        theme: theme,
-                        top: axisTop,
-                        right: axisRight,
-                        bottom: axisBottom,
-                        left: axisLeft
-                    }, motionProps)),
-                    bars,
-                    layout === 'vertical' ? React.createElement(BarSlices, {
-                        theme: theme,
-                        slices: result.slices,
-                        showTooltip: showTooltip,
-                        hideTooltip: hideTooltip,
-                        width: result.slices[0].width,
-                        height: height,
-                        tooltipFormat: tooltipFormat
-                    }) : '',
-                    React.createElement(CartesianMarkers, {
-                        markers: markers,
-                        width: width,
-                        height: height,
-                        xScale: result.xScale,
-                        yScale: result.yScale,
-                        theme: theme
-                    })
-                )
+                SvgWrapper,
+                {
+                    width: outerWidth,
+                    height: outerHeight,
+                    margin: margin,
+                    defs: boundDefs
+                },
+                React.createElement(Grid, _extends({
+                    theme: theme,
+                    width: width,
+                    height: height,
+                    xScale: enableGridX ? result.xScale : null,
+                    yScale: enableGridY ? result.yScale : null
+                }, motionProps)),
+                React.createElement(Axes, _extends({
+                    xScale: result.xScale,
+                    yScale: result.yScale,
+                    width: width,
+                    enableTemplates: enableTemplates,
+                    height: height,
+                    theme: theme,
+                    top: axisTop,
+                    right: axisRight,
+                    bottom: axisBottom,
+                    left: axisLeft
+                }, motionProps)),
+                bars,
+                layout === 'vertical' ? React.createElement(BarSlices, {
+                    theme: theme,
+                    slices: result.slices,
+                    showTooltip: showTooltip,
+                    hideTooltip: hideTooltip,
+                    width: result.slices[0].width,
+                    height: height,
+                    tooltipFormat: tooltipFormat
+                }) : '',
+                React.createElement(CartesianMarkers, {
+                    markers: markers,
+                    width: width,
+                    height: height,
+                    xScale: result.xScale,
+                    yScale: result.yScale,
+                    theme: theme
+                })
             );
         }
     );

@@ -53,6 +53,8 @@ const Bar = ({
     keyNames,
     templates,
     enableTemplates,
+    //events
+    onTicksCalculate,
 
     groupMode,
     layout,
@@ -162,6 +164,8 @@ const Bar = ({
         position: 'bottom',
     })
 
+  onTicksCalculate && onTicksCalculate(ticks, y);
+
     return (
         <Container isInteractive={isInteractive} theme={theme}>
             {({ showTooltip, hideTooltip }) => {
@@ -231,80 +235,60 @@ const Bar = ({
                 }
 
 
-                const renderTicks = (templates) => {
-                    return ticks.map(({x}, index) => {
-                       return (
-                            <div
-                                className="bar-chart__axis"
-                                key={x}
-                                style={{
-                                    transform: `translateX(${x + margin.left}px)`,
-                                    top: `${y + 15}px`
-                                }}
-                            >
-                                <div className="bar-chart__axis-item">
-                                    <div dangerouslySetInnerHTML={{__html: templates[index]}} />
-                                </div>
-                            </div>
-                       ) ;
-                    });
-                }
+
 
                 return (
-                    <div>
-                        <SvgWrapper
-                            width={outerWidth}
-                            height={outerHeight}
-                            margin={margin}
-                            defs={boundDefs}
-                        >
-                            <Grid
-                                theme={theme}
-                                width={width}
-                                height={height}
-                                xScale={enableGridX ? result.xScale : null}
-                                yScale={enableGridY ? result.yScale : null}
-                                {...motionProps}
-                            />
-                            <Axes
-                                xScale={result.xScale}
-                                yScale={result.yScale}
-                                width={width}
-                                enableTemplates={enableTemplates}
-                                height={height}
-                                theme={theme}
-                                top={axisTop}
-                                right={axisRight}
-                                bottom={axisBottom}
-                                left={axisLeft}
-                                {...motionProps}
-                            />
-                            {bars}
-                            {
-                                layout === 'vertical'
-                                  ?
-                                      <BarSlices
-                                        theme={theme}
-                                        slices={result.slices}
-                                        showTooltip={showTooltip}
-                                        hideTooltip={hideTooltip}
-                                        width={result.slices[0].width}
-                                        height={height}
-                                        tooltipFormat={tooltipFormat}
-                                      />
-                                  : ''
-                            }
-                            <CartesianMarkers
-                                markers={markers}
-                                width={width}
-                                height={height}
-                                xScale={result.xScale}
-                                yScale={result.yScale}
-                                theme={theme}
-                            />
-                        </SvgWrapper>
-                        {/*{enableTemplates ? renderTicks(templates) : ''}*/}
-                    </div>
+                    <SvgWrapper
+                        width={outerWidth}
+                        height={outerHeight}
+                        margin={margin}
+                        defs={boundDefs}
+                    >
+                        <Grid
+                            theme={theme}
+                            width={width}
+                            height={height}
+                            xScale={enableGridX ? result.xScale : null}
+                            yScale={enableGridY ? result.yScale : null}
+                            {...motionProps}
+                        />
+                        <Axes
+                            xScale={result.xScale}
+                            yScale={result.yScale}
+                            width={width}
+                            enableTemplates={enableTemplates}
+                            height={height}
+                            theme={theme}
+                            top={axisTop}
+                            right={axisRight}
+                            bottom={axisBottom}
+                            left={axisLeft}
+                            {...motionProps}
+                        />
+                        {bars}
+                        {
+                            layout === 'vertical'
+                              ?
+                                  <BarSlices
+                                    theme={theme}
+                                    slices={result.slices}
+                                    showTooltip={showTooltip}
+                                    hideTooltip={hideTooltip}
+                                    width={result.slices[0].width}
+                                    height={height}
+                                    tooltipFormat={tooltipFormat}
+                                  />
+                              : ''
+                        }
+                        <CartesianMarkers
+                            markers={markers}
+                            width={width}
+                            height={height}
+                            xScale={result.xScale}
+                            yScale={result.yScale}
+                            theme={theme}
+                        />
+                    </SvgWrapper>
                 )
             }}
         </Container>
