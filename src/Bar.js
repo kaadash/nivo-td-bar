@@ -163,10 +163,29 @@ const Bar = ({
         scale: result.xScale,
         position: 'bottom',
     })
+    const renderTicks = (templates) => {
+        return ticks.map(({x}, index) => {
+           return (
+                  <div
+                 className="bar-chart__axis"
+                    key={x}
+                    style={{
+                        transform: `translateX(${x + margin.left}px)`,
+                          top: `${y + 15}px`
+                      }}
+                >
+                    <div className="bar-chart__axis-item">
+                              <div dangerouslySetInnerHTML={{__html: templates[index]}} />
+                          </div>
+                </div>
+           ) ;
+        });
+    }
 
   onTicksCalculate && onTicksCalculate(ticks, y);
 
     return (
+      <div>
         <Container isInteractive={isInteractive} theme={theme}>
             {({ showTooltip, hideTooltip }) => {
                 const commonProps = {
@@ -293,6 +312,8 @@ const Bar = ({
                 )
             }}
         </Container>
+        {enableTemplates ? renderTicks(templates) : ''}
+      </div>
     )
 }
 

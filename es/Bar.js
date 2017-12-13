@@ -167,134 +167,162 @@ var Bar = function Bar(_ref5) {
         y = _computeAxisTicks.y,
         ticks = _computeAxisTicks.ticks;
 
+    var renderTicks = function renderTicks(templates) {
+        return ticks.map(function (_ref7, index) {
+            var x = _ref7.x;
+
+            return React.createElement(
+                'div',
+                {
+                    className: 'bar-chart__axis',
+                    key: x,
+                    style: {
+                        transform: 'translateX(' + (x + margin.left) + 'px)',
+                        top: y + 15 + 'px'
+                    }
+                },
+                React.createElement(
+                    'div',
+                    { className: 'bar-chart__axis-item' },
+                    React.createElement('div', { dangerouslySetInnerHTML: { __html: templates[index] } })
+                )
+            );
+        });
+    };
+
     onTicksCalculate && onTicksCalculate(ticks, y);
 
     return React.createElement(
-        Container,
-        { isInteractive: isInteractive, theme: theme },
-        function (_ref7) {
-            var showTooltip = _ref7.showTooltip,
-                hideTooltip = _ref7.hideTooltip;
+        'div',
+        null,
+        React.createElement(
+            Container,
+            { isInteractive: isInteractive, theme: theme },
+            function (_ref8) {
+                var showTooltip = _ref8.showTooltip,
+                    hideTooltip = _ref8.hideTooltip;
 
-            var commonProps = {
-                borderRadius: borderRadius,
-                borderWidth: borderWidth,
-                enableLabel: enableLabel,
-                labelSkipWidth: labelSkipWidth,
-                labelSkipHeight: labelSkipHeight,
-                showTooltip: showTooltip,
-                hideTooltip: hideTooltip,
-                onClick: onClick,
-                theme: theme,
-                tooltipFormat: tooltipFormat
-            };
-
-            var bars = void 0;
-            if (animate === true) {
-                bars = React.createElement(
-                    TransitionMotion,
-                    {
-                        willEnter: willEnter,
-                        willLeave: willLeave,
-                        styles: result.bars.map(function (bar) {
-                            return {
-                                key: bar.key,
-                                data: bar,
-                                style: {
-                                    x: spring(bar.x, springConfig),
-                                    y: spring(bar.y, springConfig),
-                                    width: spring(bar.width, springConfig),
-                                    height: spring(bar.height, springConfig)
-                                }
-                            };
-                        })
-                    },
-                    function (interpolatedStyles) {
-                        return React.createElement(
-                            'g',
-                            null,
-                            interpolatedStyles.map(function (_ref8) {
-                                var key = _ref8.key,
-                                    style = _ref8.style,
-                                    bar = _ref8.data;
-
-                                var baseProps = _extends({}, bar, style);
-
-                                return React.createElement(barComponent, _extends({
-                                    key: key
-                                }, baseProps, commonProps, {
-                                    shouldRenderLabel: shouldRenderLabel(baseProps),
-                                    width: Math.max(style.width, 0),
-                                    height: Math.max(style.height, 0),
-                                    label: getLabel(bar.data),
-                                    labelColor: getLabelTextColor(baseProps, theme),
-                                    borderColor: getBorderColor(baseProps)
-                                }));
-                            })
-                        );
-                    }
-                );
-            } else {
-                bars = result.bars.map(function (d) {
-                    return React.createElement(barComponent, _extends({
-                        key: d.key
-                    }, d, commonProps, {
-                        label: getLabel(d.data),
-                        shouldRenderLabel: shouldRenderLabel(d),
-                        labelColor: getLabelTextColor(d, theme),
-                        borderColor: getBorderColor(d)
-                    }));
-                });
-            }
-
-            return React.createElement(
-                SvgWrapper,
-                {
-                    width: outerWidth,
-                    height: outerHeight,
-                    margin: margin,
-                    defs: boundDefs
-                },
-                React.createElement(Grid, _extends({
-                    theme: theme,
-                    width: width,
-                    height: height,
-                    xScale: enableGridX ? result.xScale : null,
-                    yScale: enableGridY ? result.yScale : null
-                }, motionProps)),
-                React.createElement(Axes, _extends({
-                    xScale: result.xScale,
-                    yScale: result.yScale,
-                    width: width,
-                    enableTemplates: enableTemplates,
-                    height: height,
-                    theme: theme,
-                    top: axisTop,
-                    right: axisRight,
-                    bottom: axisBottom,
-                    left: axisLeft
-                }, motionProps)),
-                bars,
-                layout === 'vertical' ? React.createElement(BarSlices, {
-                    paddingInPixel: result.paddingInPixel,
-                    theme: theme,
-                    slices: result.slices,
+                var commonProps = {
+                    borderRadius: borderRadius,
+                    borderWidth: borderWidth,
+                    enableLabel: enableLabel,
+                    labelSkipWidth: labelSkipWidth,
+                    labelSkipHeight: labelSkipHeight,
                     showTooltip: showTooltip,
                     hideTooltip: hideTooltip,
-                    width: result.slices[0].width,
-                    height: height,
+                    onClick: onClick,
+                    theme: theme,
                     tooltipFormat: tooltipFormat
-                }) : '',
-                React.createElement(CartesianMarkers, {
-                    markers: markers,
-                    width: width,
-                    height: height,
-                    xScale: result.xScale,
-                    yScale: result.yScale,
-                    theme: theme
-                })
-            );
-        }
+                };
+
+                var bars = void 0;
+                if (animate === true) {
+                    bars = React.createElement(
+                        TransitionMotion,
+                        {
+                            willEnter: willEnter,
+                            willLeave: willLeave,
+                            styles: result.bars.map(function (bar) {
+                                return {
+                                    key: bar.key,
+                                    data: bar,
+                                    style: {
+                                        x: spring(bar.x, springConfig),
+                                        y: spring(bar.y, springConfig),
+                                        width: spring(bar.width, springConfig),
+                                        height: spring(bar.height, springConfig)
+                                    }
+                                };
+                            })
+                        },
+                        function (interpolatedStyles) {
+                            return React.createElement(
+                                'g',
+                                null,
+                                interpolatedStyles.map(function (_ref9) {
+                                    var key = _ref9.key,
+                                        style = _ref9.style,
+                                        bar = _ref9.data;
+
+                                    var baseProps = _extends({}, bar, style);
+
+                                    return React.createElement(barComponent, _extends({
+                                        key: key
+                                    }, baseProps, commonProps, {
+                                        shouldRenderLabel: shouldRenderLabel(baseProps),
+                                        width: Math.max(style.width, 0),
+                                        height: Math.max(style.height, 0),
+                                        label: getLabel(bar.data),
+                                        labelColor: getLabelTextColor(baseProps, theme),
+                                        borderColor: getBorderColor(baseProps)
+                                    }));
+                                })
+                            );
+                        }
+                    );
+                } else {
+                    bars = result.bars.map(function (d) {
+                        return React.createElement(barComponent, _extends({
+                            key: d.key
+                        }, d, commonProps, {
+                            label: getLabel(d.data),
+                            shouldRenderLabel: shouldRenderLabel(d),
+                            labelColor: getLabelTextColor(d, theme),
+                            borderColor: getBorderColor(d)
+                        }));
+                    });
+                }
+
+                return React.createElement(
+                    SvgWrapper,
+                    {
+                        width: outerWidth,
+                        height: outerHeight,
+                        margin: margin,
+                        defs: boundDefs
+                    },
+                    React.createElement(Grid, _extends({
+                        theme: theme,
+                        width: width,
+                        height: height,
+                        xScale: enableGridX ? result.xScale : null,
+                        yScale: enableGridY ? result.yScale : null
+                    }, motionProps)),
+                    React.createElement(Axes, _extends({
+                        xScale: result.xScale,
+                        yScale: result.yScale,
+                        width: width,
+                        enableTemplates: enableTemplates,
+                        height: height,
+                        theme: theme,
+                        top: axisTop,
+                        right: axisRight,
+                        bottom: axisBottom,
+                        left: axisLeft
+                    }, motionProps)),
+                    bars,
+                    layout === 'vertical' ? React.createElement(BarSlices, {
+                        paddingInPixel: result.paddingInPixel,
+                        theme: theme,
+                        slices: result.slices,
+                        showTooltip: showTooltip,
+                        hideTooltip: hideTooltip,
+                        width: result.slices[0].width,
+                        height: height,
+                        tooltipFormat: tooltipFormat
+                    }) : '',
+                    React.createElement(CartesianMarkers, {
+                        markers: markers,
+                        width: width,
+                        height: height,
+                        xScale: result.xScale,
+                        yScale: result.yScale,
+                        theme: theme
+                    })
+                );
+            }
+        ),
+        enableTemplates ? renderTicks(templates) : ''
     );
 };
 
