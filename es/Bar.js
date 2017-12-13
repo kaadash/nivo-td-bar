@@ -71,7 +71,7 @@ var Bar = function Bar(_ref5) {
         keyNames = _ref5.keyNames,
         templates = _ref5.templates,
         enableTemplates = _ref5.enableTemplates,
-        onTicksCalculate = _ref5.onTicksCalculate,
+        axisFormat = _ref5.axisFormat,
         groupMode = _ref5.groupMode,
         layout = _ref5.layout,
         reverse = _ref5.reverse,
@@ -189,8 +189,7 @@ var Bar = function Bar(_ref5) {
             );
         });
     };
-
-    onTicksCalculate && onTicksCalculate(ticks, y);
+    console.log(axisFormat);
 
     return React.createElement(
         'div',
@@ -294,6 +293,7 @@ var Bar = function Bar(_ref5) {
                         width: width,
                         enableTemplates: enableTemplates,
                         format: tooltipFormat,
+                        axisFormat: axisFormat,
                         height: height,
                         theme: theme,
                         top: axisTop,

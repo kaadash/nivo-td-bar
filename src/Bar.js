@@ -53,8 +53,8 @@ const Bar = ({
     keyNames,
     templates,
     enableTemplates,
+    axisFormat,
     //events
-    onTicksCalculate,
 
     groupMode,
     layout,
@@ -181,8 +181,7 @@ const Bar = ({
            ) ;
         });
     }
-
-  onTicksCalculate && onTicksCalculate(ticks, y);
+    console.log(axisFormat);
 
     return (
       <div>
@@ -277,6 +276,7 @@ const Bar = ({
                             width={width}
                             enableTemplates={enableTemplates}
                             format={tooltipFormat}
+                            axisFormat={axisFormat}
                             height={height}
                             theme={theme}
                             top={axisTop}
