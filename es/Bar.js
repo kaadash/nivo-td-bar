@@ -276,6 +276,7 @@ var Bar = function Bar(_ref5) {
                 }, motionProps)),
                 bars,
                 layout === 'vertical' ? React.createElement(BarSlices, {
+                    paddingInPixel: result.paddingInPixel,
                     theme: theme,
                     slices: result.slices,
                     showTooltip: showTooltip,

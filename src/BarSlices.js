@@ -11,13 +11,16 @@ import PropTypes from 'prop-types'
 import pure from 'recompose/pure'
 import BarSlicesItem from './BarSlicesItem'
 
-const BarSlices = ({ slices, height, width, theme, tooltipFormat, showTooltip, hideTooltip }) => (
+const BarSlices = ({ slices, height, width, theme, tooltipFormat, showTooltip, hideTooltip, paddingInPixel = 0 }) => (
     <g>
-        {slices.map(slice => (
+        {slices.map((slice, index) => (
             <g key={slice.x}>
                 <line
                     stroke="#e8e9e8"
-                    style={{shapeRendering: 'crispEdges'}}
+                    style={{
+                      shapeRendering: 'crispEdges',
+                      strokeWidth: index !== 0 ? 1 : 0
+                    }}
                     x1={slice.x}
                     x2={slice.x}
                     y1={0}
@@ -28,8 +31,8 @@ const BarSlices = ({ slices, height, width, theme, tooltipFormat, showTooltip, h
                     theme={theme}
                     showTooltip={showTooltip}
                     hideTooltip={hideTooltip}
-                    x={slice.x}
-                    width={width}
+                    x={slice.x - (index === 0 ? paddingInPixel - 5 : 0)}
+                    width={width + (index === 0 ? paddingInPixel - 5 : 0)}
                     height={height}
                     tooltipFormat={tooltipFormat}
                 />

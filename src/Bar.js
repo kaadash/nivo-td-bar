@@ -270,6 +270,7 @@ const Bar = ({
                             layout === 'vertical'
                               ?
                                   <BarSlices
+                                    paddingInPixel={result.paddingInPixel}
                                     theme={theme}
                                     slices={result.slices}
                                     showTooltip={showTooltip}

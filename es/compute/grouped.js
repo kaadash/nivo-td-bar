@@ -160,7 +160,7 @@ export var generateVerticalGroupedBars = function generateVerticalGroupedBars(_r
         });
     }
 
-    return { xScale: xScale, yScale: yScale, bars: bars, slices: slices };
+    return { xScale: xScale, yScale: yScale, bars: bars, slices: slices, paddingInPixel: paddingInPixel };
 };
 
 /**

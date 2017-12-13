@@ -146,7 +146,7 @@ export const generateVerticalGroupedBars = ({
         })
     }
 
-  return { xScale, yScale, bars, slices }
+  return { xScale, yScale, bars, slices, paddingInPixel }
 }
 
 /**
