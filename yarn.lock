@@ -31,9 +31,9 @@
     babel-plugin-transform-object-rest-spread "^6.26.0"
     babel-plugin-transform-react-jsx "^6.24.1"
 
-"@nivo/core@https://github.com/kaadash/nivo-td-core.git":
-  version "0.32.0"
-  resolved "https://github.com/kaadash/nivo-td-core.git#1f4a71fcc3d6259725b351e96181d0adc9afba5e"
+"@nivo/core@^0.33.0":
+  version "0.33.0"
+  resolved "https://registry.yarnpkg.com/@nivo/core/-/core-0.33.0.tgz#d4797275f8bf28f8e9fcc6f720d78cc354561050"
   dependencies:
     d3-color "^1.0.3"
     d3-format "^1.2.0"
@@ -42,7 +42,6 @@
     d3-scale "^1.0.6"
     d3-scale-chromatic "^1.1.1"
     d3-shape "^1.2.0"
-    lodash-es "^4.17.4"
     react-measure "^2.0.2"
     react-motion "^0.5.2"
     recompose "^0.26.0"
@@ -1960,10 +1959,6 @@ locate-path@^2.0.0:
   dependencies:
     p-locate "^2.0.0"
     path-exists "^3.0.0"
-
-lodash-es@^4.17.4:
-  version "4.17.4"
-  resolved "https://registry.yarnpkg.com/lodash-es/-/lodash-es-4.17.4.tgz#dcc1d7552e150a0640073ba9cb31d70f032950e7"
 
 lodash.random@^3.2.0:
   version "3.2.0"
