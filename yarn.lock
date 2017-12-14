@@ -33,7 +33,7 @@
 
 "@nivo/core@https://github.com/kaadash/nivo-td-core.git":
   version "0.32.0"
-  resolved "https://github.com/kaadash/nivo-td-core.git#15a0265554a6c7e423d68a5ea63d7edf15964d1a"
+  resolved "https://github.com/kaadash/nivo-td-core.git#f5864dbcc7de838a9df9d45521a53adefeee098a"
   dependencies:
     d3-color "^1.0.3"
     d3-format "^1.2.0"

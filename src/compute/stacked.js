@@ -10,6 +10,7 @@ import { flattenDepth, min, max } from 'lodash'
 import { scaleLinear } from 'd3-scale'
 import { stack, stackOffsetDiverging } from 'd3-shape'
 import { getIndexedScale } from './common'
+import { isNumber, map } from 'lodash';
 
 /**
  * Generates scale for stacked bar chart.
@@ -80,6 +81,7 @@ export const generateVerticalStackedBars = ({
     const yScale = getStackedScale(stackedData, minValue, maxValue, yRange)
 
     const bars = []
+    const slices = []
     const barWidth = xScale.bandwidth()
 
     let getY = d => yScale(d[1])
@@ -88,9 +90,11 @@ export const generateVerticalStackedBars = ({
         getY = d => yScale(d[0])
         getHeight = (d, y) => yScale(d[1]) - y
     }
+    const paddingInPixel = width * padding / xScale.domain().length;
+
 
     if (barWidth > 0) {
-        stackedData.forEach(stackedDataItem => {
+        stackedData.forEach((stackedDataItem, stackedDataIndex) => {
             xScale.domain().forEach((index, i) => {
                 const d = stackedDataItem[i]
                 const x = xScale(getIndex(d.data))
@@ -102,33 +106,56 @@ export const generateVerticalStackedBars = ({
                     barHeight -= innerPadding
                 }
 
-                if (barHeight > 0) {
-                    const barData = {
-                        id: stackedDataItem.key,
-                        value: d.data[stackedDataItem.key],
-                        keyNames,
-                        keyName: keyNames[stackedDataItem.key],
-                        template: templates[i],
-                        index: i,
-                        indexValue: index,
-                        data: d.data,
-                    }
 
-                    bars.push({
-                        key: `${stackedDataItem.key}.${index}`,
-                        data: barData,
-                        x,
-                        y,
-                        width: barWidth,
-                        height: barHeight,
-                        color: getColor(barData),
-                    })
+                const barData = {
+                    id: stackedDataItem.key,
+                    value: d.data[stackedDataItem.key],
+                    keyNames,
+                    keyName: keyNames[stackedDataItem.key],
+                    template: templates[i],
+                    index: i,
+                    indexValue: index,
+                    data: d.data,
+                }
+
+                bars.push({
+                    key: `${stackedDataItem.key}.${index}`,
+                    data: barData,
+                    x,
+                    y,
+                    width: barWidth,
+                    height: barHeight,
+                    color: getColor(barData),
+                })
+                if (stackedDataIndex === 0) {
+                  const tooltipData = map(keyNames, (keyName, key) => {
+                    return {
+                      name: keyName.name,
+                      value: data[i][key],
+                      format: keyName.format,
+                      color: getColor(Object.assign({}, data[i][key], {
+                        id: key,
+                      }))
+                    };
+                  }).filter(({value}) => {
+                    return isNumber(value);
+                  });
+                  slices.push({
+                    key: `${barData.id}`,
+                    data: barData,
+                    tooltipData,
+                    x: x - paddingInPixel / 2,
+                    y,
+                    width: barWidth + paddingInPixel,
+                    height: barHeight,
+                    color: getColor(barData),
+                  })
                 }
             })
         })
     }
 
-    return { xScale, yScale, bars, groupBarsWidth: barWidth }
+    return { xScale, yScale, bars, groupBarsWidth: barWidth, slices }
 }
 
 /**

@@ -39,7 +39,8 @@ var BarItem = function BarItem(_ref) {
             enableChip: true,
             color: color,
             theme: theme,
-            format: tooltipFormat
+            format: tooltipFormat,
+            data: data
         }), e);
     };
 

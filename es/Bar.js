@@ -323,7 +323,7 @@ var Bar = function Bar(_ref5) {
                 );
             }
         ),
-        enableTemplates ? renderTicks(templates) : ''
+        enableTemplates && layout === 'vertical' ? renderTicks(templates) : ''
     );
 };
 

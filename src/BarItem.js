@@ -45,6 +45,7 @@ const BarItem = ({
                 color={color}
                 theme={theme}
                 format={tooltipFormat}
+                data={data}
             />,
             e
         )

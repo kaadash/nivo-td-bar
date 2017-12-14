@@ -313,7 +313,7 @@ const Bar = ({
                 )
             }}
         </Container>
-        {enableTemplates ? renderTicks(templates) : ''}
+        {enableTemplates && layout === 'vertical' ? renderTicks(templates) : ''}
       </div>
     )
 }

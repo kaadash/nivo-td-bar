@@ -10,6 +10,7 @@ import { flattenDepth, min, max } from 'lodash-es';
 import { scaleLinear } from 'd3-scale';
 import { stack, stackOffsetDiverging } from 'd3-shape';
 import { getIndexedScale } from './common';
+import { isNumber, map } from 'lodash-es';
 
 /**
  * Generates scale for stacked bar chart.
@@ -78,6 +79,7 @@ export var generateVerticalStackedBars = function generateVerticalStackedBars(_r
     var yScale = getStackedScale(stackedData, minValue, maxValue, yRange);
 
     var bars = [];
+    var slices = [];
     var barWidth = xScale.bandwidth();
 
     var getY = function getY(d) {
@@ -94,9 +96,10 @@ export var generateVerticalStackedBars = function generateVerticalStackedBars(_r
             return yScale(d[1]) - y;
         };
     }
+    var paddingInPixel = width * padding / xScale.domain().length;
 
     if (barWidth > 0) {
-        stackedData.forEach(function (stackedDataItem) {
+        stackedData.forEach(function (stackedDataItem, stackedDataIndex) {
             xScale.domain().forEach(function (index, i) {
                 var d = stackedDataItem[i];
                 var x = xScale(getIndex(d.data));
@@ -108,24 +111,48 @@ export var generateVerticalStackedBars = function generateVerticalStackedBars(_r
                     barHeight -= innerPadding;
                 }
 
-                if (barHeight > 0) {
-                    var barData = {
-                        id: stackedDataItem.key,
-                        value: d.data[stackedDataItem.key],
-                        keyNames: keyNames,
-                        keyName: keyNames[stackedDataItem.key],
-                        template: templates[i],
-                        index: i,
-                        indexValue: index,
-                        data: d.data
-                    };
+                var barData = {
+                    id: stackedDataItem.key,
+                    value: d.data[stackedDataItem.key],
+                    keyNames: keyNames,
+                    keyName: keyNames[stackedDataItem.key],
+                    template: templates[i],
+                    index: i,
+                    indexValue: index,
+                    data: d.data
+                };
 
-                    bars.push({
-                        key: stackedDataItem.key + '.' + index,
+                bars.push({
+                    key: stackedDataItem.key + '.' + index,
+                    data: barData,
+                    x: x,
+                    y: y,
+                    width: barWidth,
+                    height: barHeight,
+                    color: getColor(barData)
+                });
+                if (stackedDataIndex === 0) {
+                    var tooltipData = map(keyNames, function (keyName, key) {
+                        return {
+                            name: keyName.name,
+                            value: data[i][key],
+                            format: keyName.format,
+                            color: getColor(Object.assign({}, data[i][key], {
+                                id: key
+                            }))
+                        };
+                    }).filter(function (_ref2) {
+                        var value = _ref2.value;
+
+                        return isNumber(value);
+                    });
+                    slices.push({
+                        key: '' + barData.id,
                         data: barData,
-                        x: x,
+                        tooltipData: tooltipData,
+                        x: x - paddingInPixel / 2,
                         y: y,
-                        width: barWidth,
+                        width: barWidth + paddingInPixel,
                         height: barHeight,
                         color: getColor(barData)
                     });
@@ -134,7 +161,7 @@ export var generateVerticalStackedBars = function generateVerticalStackedBars(_r
         });
     }
 
-    return { xScale: xScale, yScale: yScale, bars: bars, groupBarsWidth: barWidth };
+    return { xScale: xScale, yScale: yScale, bars: bars, groupBarsWidth: barWidth, slices: slices };
 };
 
 /**
@@ -154,21 +181,21 @@ export var generateVerticalStackedBars = function generateVerticalStackedBars(_r
  * @param {number}         [innerPadding=0]
  * @return {{ xScale: Function, yScale: Function, bars: Array.<Object> }}
  */
-export var generateHorizontalStackedBars = function generateHorizontalStackedBars(_ref2) {
-    var data = _ref2.data,
-        getIndex = _ref2.getIndex,
-        keys = _ref2.keys,
-        minValue = _ref2.minValue,
-        maxValue = _ref2.maxValue,
-        reverse = _ref2.reverse,
-        width = _ref2.width,
-        height = _ref2.height,
-        getColor = _ref2.getColor,
-        keyNames = _ref2.keyNames,
-        _ref2$padding = _ref2.padding,
-        padding = _ref2$padding === undefined ? 0 : _ref2$padding,
-        _ref2$innerPadding = _ref2.innerPadding,
-        innerPadding = _ref2$innerPadding === undefined ? 0 : _ref2$innerPadding;
+export var generateHorizontalStackedBars = function generateHorizontalStackedBars(_ref3) {
+    var data = _ref3.data,
+        getIndex = _ref3.getIndex,
+        keys = _ref3.keys,
+        minValue = _ref3.minValue,
+        maxValue = _ref3.maxValue,
+        reverse = _ref3.reverse,
+        width = _ref3.width,
+        height = _ref3.height,
+        getColor = _ref3.getColor,
+        keyNames = _ref3.keyNames,
+        _ref3$padding = _ref3.padding,
+        padding = _ref3$padding === undefined ? 0 : _ref3$padding,
+        _ref3$innerPadding = _ref3.innerPadding,
+        innerPadding = _ref3$innerPadding === undefined ? 0 : _ref3$innerPadding;
 
     var stackedData = stack().keys(keys).offset(stackOffsetDiverging)(data);
 
